@@ -36,6 +36,9 @@ class Book:
 
     def get_book_id(self):
         return self.__book_id
+    
+    def get_book_title(self):
+        return self.__title
 
     def show_book(self):
         print(f"Book ID : {self.__book_id}")
@@ -46,11 +49,24 @@ class Book:
             print("Available for borrowing.\n")
 
 
+class EBook(Book):
+    def __init__(self, title, file_size):
+        super().__init__(title)
+        self.__file_size = file_size
+
+    def show_book(self):
+        print(f"Title : {self.get_book_title()}")
+        print(f'Book Size : {self.__file_size}\n')
+        
+
 book1 = Book("Pride and Prejudice")
 book2 = Book("Moby Dick")
 book3 = Book("Frankenstein")
 book4 = Book("The Odyssey")
 book5 = Book("Alice in Wonderland")
+
+e = EBook("Dracula", 5)
+
 
 def asking_for_id():
     try:
@@ -75,14 +91,22 @@ while True:
         print()
         if sub_option == "1":
             for book in Library.book_list:
-                book.show_book()
+                if not isinstance(book,EBook):
+                    book.show_book()
+                else:
+                    print("EBOOKS:")
+                    book.show_book()
         elif sub_option == "2":
             ID = asking_for_id()
             print()
             if ID is not None:
                 book = Library.search_book(ID)
                 if book is not None:
-                    book.show_book()
+                    if not isinstance(book,EBook):
+                        book.show_book()
+                    else:
+                        print("EBOOKS:")
+                        book.show_book()
                 else:
                     print("Invalid ID.\n")
         else:
